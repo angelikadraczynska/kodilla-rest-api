@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "cd client && yarn install && yarn build",    
+    "build": "cd client && npm install && npm build",    
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
