@@ -1,13 +1,13 @@
 const express = require('express');
-const db = require('../database');
+const db = require('../db');
 const router = express.Router();
 const uuidv1 = require('uuid/v1');
 
-router.route('/').get((req, res) => {
+router.route('/concerts').get((req, res) => {
   res.json(db.concerts);
 });
 
-router.route('/:id').get((req, res) => {
+router.route('/concerts/:id').get((req, res) => {
   const concertsData = db.concerts;
   concertsData.map(single => {
     if (single.id === req.params.id) {
@@ -16,7 +16,7 @@ router.route('/:id').get((req, res) => {
   });
 });
 
-router.route('/').post((req, res) => {
+router.route('/concerts').post((req, res) => {
   const { performer, genre, price, day } = req.body;
   const newPost = {
     performer: performer,
@@ -29,7 +29,7 @@ router.route('/').post((req, res) => {
   res.json({ message: 'OK' });
 });
 
-router.route('/:id').put((req, res) => {
+router.route('/concerts/:id').put((req, res) => {
   const { performer, genre, price, day } = req.body;
   const concertsData = db.concerts;
   concertsData.map(post => {
@@ -43,7 +43,7 @@ router.route('/:id').put((req, res) => {
   });
 });
 
-router.route('/:id').delete((req, res) => {
+router.route('/concerts/:id').delete((req, res) => {
   const concertsData = db.concerts;
   concertsData.map(post => {
     if (post.id === req.params.id) {

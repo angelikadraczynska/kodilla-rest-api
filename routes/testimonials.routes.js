@@ -1,13 +1,13 @@
 const express = require('express');
-const db = require('../database');
+const db = require('../db');
 const router = express.Router();
 const uuidv1 = require('uuid/v1');
 
-router.route('/').get((req, res) => {
+router.route('/testimonials').get((req, res) => {
   res.json(db.testimonials);
 });
 
-router.route('/:id').get((req, res) => {
+router.route('/testimonials/:id').get((req, res) => {
   const testimonialsData = db.testimonials;
   testimonialsData.map(single => {
     if (single.id == req.params.id) {
@@ -16,21 +16,21 @@ router.route('/:id').get((req, res) => {
   });
 });
 
-router.route('/random').get((req, res) => {
+router.route('/testimonials/random').get((req, res) => {
   const testimonialsData = db.testimonials;
   const randomTestimonial =
     testimonialsData[Math.floor(Math.random() * testimonialsData.length)];
   return res.json(randomTestimonial);
 });
 
-router.route('/').post((req, res) => {
+router.route('/testimonials').post((req, res) => {
   const { author, text } = req.body;
   const newPost = { author: author, text: text, id: uuidv1() };
   db.testimonials.push(newPost);
   res.json({ message: 'OK' });
 });
 
-router.route('/:id').put((req, res) => {
+router.route('/testimonials/:id').put((req, res) => {
   const { author, text } = req.body;
   const testimonialsData = db.testimonials;
   testimonialsData.map(post => {
@@ -42,7 +42,7 @@ router.route('/:id').put((req, res) => {
   });
 });
 
-router.route('/:id').delete((req, res) => {
+router.route('/testimonials/:id').delete((req, res) => {
   const testimonialsData = db.testimonials;
   testimonialsData.map(post => {
     if (post.id == req.params.id) {
