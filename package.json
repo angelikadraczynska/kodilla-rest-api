@@ -20,24 +20,6 @@
     "uuid": "^3.3.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "cd client && npm install && npm build",    
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "build": "cd client && yarn install && yarn build" 
   }
 }
