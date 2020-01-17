@@ -20,6 +20,6 @@
     "uuid": "^3.3.3"
   },
   "scripts": {
-    "build": "cd client && npm install && npm build" 
+    "postinstall": "cd client && npm install"
   }
 }
