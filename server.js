@@ -21,7 +21,7 @@ app.use('/api', concertsRoutes);
 app.use('/api', seatsRoutes);
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+  res.sendFile(path.join('./client/build/index.html'));
 });
 
 app.use((req, res) => {
@@ -30,4 +30,5 @@ app.use((req, res) => {
 
 app.listen(process.env.PORT || 8000, () => {
   console.log('Server is running on port: 8000');
+  console.log('dirname', __dirname);
 });
