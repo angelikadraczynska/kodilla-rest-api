@@ -4,5 +4,8 @@
     "express-cors": "0.0.3",
     "nodemon": "1.19.1",
     "uuid": "^3.3.3"
+  },
+  "scripts": {
+    "build": "cd client && yarn install && yarn build" 
   }
 }
