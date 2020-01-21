@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors({
   allowedOrigins: [
-      'localhost:3000',
+      'localhost:3000','localhost:8000'
   ]
 }))
 app.use(express.static(path.join(__dirname, '/client/build')));
@@ -17,6 +17,11 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
 const seatsRoutes = require('./routes/seats.routes');
+
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
 
 app.use('/api', testimonialsRoutes);
 app.use('/api', concertsRoutes);
@@ -36,6 +41,6 @@ const server = app.listen(process.env.PORT || 8000, () => {
 
 const io = socket(server);
 
-io.on('connection', socket => {
-  console.log('New socket! Its id – ' + socket.id);
+io.on('connection', () => { 
+  console.log('New client! Its id – ' + socket.id); 
 });
