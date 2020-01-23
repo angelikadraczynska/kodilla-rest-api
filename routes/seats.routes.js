@@ -39,6 +39,8 @@ router.route('/seats').post((req, res) => {
 
     db.seats.push(newPost);
     res.json({ message: 'OK' });
+    socket.emit('updateSeats', seatsData);
+
   }
 });
 
