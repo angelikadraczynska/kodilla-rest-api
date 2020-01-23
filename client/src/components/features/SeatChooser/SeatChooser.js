@@ -5,7 +5,6 @@ import { Button, Progress, Alert } from 'reactstrap';
 import './SeatChooser.scss';
 
 class SeatChooser extends React.Component {
-
   componentDidMount() {
     if (process.env.NODE_ENV === 'production') {
       this.socket = io.connect();
@@ -14,16 +13,20 @@ class SeatChooser extends React.Component {
     }
     const { loadSeats, loadSeatsData } = this.props;
     loadSeats();
-      this.socket.on('seatsUpdated', seats => {
+    this.socket.on('seatsUpdated', seats => {
       loadSeatsData(seats);
     });
-
   }
 
   isTaken = seatId => {
     const { seats, chosenDay } = this.props;
 
     return seats.some(item => item.seat === seatId && item.day === chosenDay);
+  };
+
+  seatsCount = seats => {
+    const seatsTaken = seats.filter(i => this.isTaken(i.seat));
+    return seatsTaken.length;
   };
 
   prepareSeat = seatId => {
@@ -58,8 +61,8 @@ class SeatChooser extends React.Component {
 
   render() {
     const { prepareSeat } = this;
-    const { requests } = this.props;
-
+    const { requests, seats } = this.props;
+    const allSeats = 50;
     return (
       <div>
         <h3>Pick a seat</h3>
@@ -80,6 +83,7 @@ class SeatChooser extends React.Component {
         {requests['LOAD_SEATS'] && requests['LOAD_SEATS'].error && (
           <Alert color='warning'>Couldn't load seats...</Alert>
         )}
+        <p>Free seats:{allSeats - this.seatsCount(seats)}/{allSeats}</p>
       </div>
     );
   }
