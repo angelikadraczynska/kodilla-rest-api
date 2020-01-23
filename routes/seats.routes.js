@@ -18,6 +18,7 @@ router.route('/seats/:id').get((req, res) => {
 
 router.route('/seats').post((req, res) => {
   const { day, seat, client, email } = req.body;
+  const io = req.io;
   const seatsData = db.seats;
   let checker = true;
 
@@ -37,10 +38,9 @@ router.route('/seats').post((req, res) => {
       id: uuidv1()
     };
 
-    db.seats.push(newPost);
+    seatsData.push(newPost);
     res.json({ message: 'OK' });
-    socket.emit('updateSeats', seatsData);
-
+    io.emit('seatsUpdated', seatsData);
   }
 });
 
