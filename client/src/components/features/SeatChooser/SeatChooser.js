@@ -12,10 +12,10 @@ class SeatChooser extends React.Component {
     } else {
       this.socket = io.connect('http://localhost:8000');
     }
-    const { loadSeats } = this.props;
+    const { loadSeats, loadSeatsData } = this.props;
     loadSeats();
       this.socket.on('seatsUpdated', seats => {
-      this.loadSeatsData(seats);
+      loadSeatsData(seats);
     });
 
   }
