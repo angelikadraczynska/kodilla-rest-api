@@ -45,13 +45,8 @@ const io = socket(server);
 io.on('connection', (socket) => {
   console.log('New client! Its id – ' + socket.id);
   socket.on('seatsUpdated', () => {
-    // socket.emit('seatsUpdated', seats);
     console.log('I got something');
 
   });
-//   socket.on('seatsUpdated', function (user) {
-//     socket.emit('seatsUpdated', user);
-//         console.log('I got something');
 
-// });
 });
