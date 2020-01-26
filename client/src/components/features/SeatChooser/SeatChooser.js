@@ -5,34 +5,28 @@ import { Button, Progress, Alert } from 'reactstrap';
 import './SeatChooser.scss';
 
 class SeatChooser extends React.Component {
-  
   componentDidMount() {
     if (process.env.NODE_ENV === 'production') {
       this.socket = io.connect();
     } else {
-      this.socket = io.connect('http://localhost:8000')
-    }    
-    const { loadSeats } = this.props;
+      this.socket = io.connect('http://localhost:8000');
+    }
+    const { loadSeats, loadSeatsData } = this.props;
     loadSeats();
-  }
-
-  componentWillUnmount() {
-    this.stopInterval();
-  }
-
-  seatsInterval() {
-    const { loadSeats } = this.props;
-    setInterval(loadSeats, 120000);
-  }
-
-  stopInterval() {
-    clearInterval(this.seatsInterval);
+    this.socket.on('seatsUpdated', seats => {
+      loadSeatsData(seats);
+    });
   }
 
   isTaken = seatId => {
     const { seats, chosenDay } = this.props;
 
     return seats.some(item => item.seat === seatId && item.day === chosenDay);
+  };
+
+  seatsCount = seats => {
+    const seatsTaken = seats.filter(i => this.isTaken(i.seat));
+    return seatsTaken.length;
   };
 
   prepareSeat = seatId => {
@@ -67,8 +61,8 @@ class SeatChooser extends React.Component {
 
   render() {
     const { prepareSeat } = this;
-    const { requests } = this.props;
-
+    const { requests, seats } = this.props;
+    const allSeats = 50;
     return (
       <div>
         <h3>Pick a seat</h3>
@@ -89,6 +83,7 @@ class SeatChooser extends React.Component {
         {requests['LOAD_SEATS'] && requests['LOAD_SEATS'].error && (
           <Alert color='warning'>Couldn't load seats...</Alert>
         )}
+        <p>Free seats:{allSeats - this.seatsCount(seats)}/{allSeats}</p>
       </div>
     );
   }
