@@ -5,8 +5,8 @@ const ConcertsController = require('../controllers/concerts.controller');
 
 router.get('/concerts', ConcertsController.getAll);
 router.get('/concerts/:id', ConcertsController.getById);
-router.post('/concerts', ConcertsController.postDepartment);
-router.put('/concerts/:id', ConcertsController.editDepartment);
-router.delete('/concerts/:id', ConcertsController.deleteDepartment);
+router.post('/concerts', ConcertsController.postConcert);
+router.put('/concerts/:id', ConcertsController.editConcert);
+router.delete('/concerts/:id', ConcertsController.deleteConcert);
 
 module.exports = router;
