@@ -1,7 +1,14 @@
 const Concerts = require('../models/concerts.model');
+const Seats = require('../models/seats.model');
 
 exports.getAll = async (req, res) => {
   try {
+    const seats = Seats.find();
+    const numberOfSeats = 50;
+    const ticketsNumber = numberOfSeats - (await seats).length;
+
+    await Concerts.updateMany({day: { $eq: 1 }}, { $set: { tickets: ticketsNumber }});
+
     res.json(await Concerts.find());
   } catch (err) {
     res.status(500).json(err);
@@ -20,14 +27,13 @@ exports.getById = async (req, res) => {
 
 exports.postConcert = async (req, res) => {
   const { performer, genre, price, day, image } = req.body;
-
   try {
     const newConcert = new Concerts({
       performer: performer,
       genre: genre,
       price: price,
       day: day,
-      image: image
+      image: image,
     });
     await newConcert.save();
     res.json({ message: 'OK' });
