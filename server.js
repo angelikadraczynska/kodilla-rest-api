@@ -3,7 +3,7 @@ const cors = require('express-cors');
 const path = require('path');
 const socket = require('socket.io');
 const mongoose = require('mongoose');
-
+const helmet = require('helmet');
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
@@ -36,6 +36,8 @@ app.get('*', (req, res) => {
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found...' });
 });
+
+app.use(helmet());
 
 mongoose.connect("mongodb+srv://angela:puszek@cluster0-3aa9o.mongodb.net/NewWaveDB?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
