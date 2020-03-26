@@ -1,4 +1,5 @@
 const Seats = require('../models/seats.model');
+const sanitize = require('mongo-sanitize');
 
 exports.getAll = async (req, res) => {
   try {
@@ -19,7 +20,7 @@ exports.getById = async (req, res) => {
 };
 
 exports.postSeat = async (req, res) => {
-  const { day, seat, client, email } = req.body;
+  const { day, seat, client, email } = sanitize(req.body);
   const io = req.io;
   try {
     const newConcert = new Seats({
@@ -37,7 +38,7 @@ exports.postSeat = async (req, res) => {
 };
 
 exports.editSeat = async (req, res) => {
-    const { day, seat, client, email } = req.body;
+    const { day, seat, client, email } = sanitize(req.body);
 
   try {
     await Seats.findOneAndUpdate(
